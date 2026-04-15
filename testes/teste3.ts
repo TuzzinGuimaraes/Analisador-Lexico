@@ -1,0 +1,16 @@
+Lexema                         Tipo
+------------------------------ --------------------
+program                        KW_PROGRAM
+var                            KW_VAR
+integer                        KW_INTEGER
+real                           KW_REAL
+begin                          KW_BEGIN
+end                            KW_END
+if                             KW_IF
+then                           KW_THEN
+else                           KW_ELSE
+while                          KW_WHILE
+do                             KW_DO
+contador                       ID
+n                              ID
+acc                            ID
