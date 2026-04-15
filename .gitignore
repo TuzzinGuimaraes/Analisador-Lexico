@@ -1,0 +1,10 @@
+*.o
+/lexico
+
+*.lex
+*.ts
+*.err
+
+!testes/*.lex
+!testes/*.ts
+!testes/*.err

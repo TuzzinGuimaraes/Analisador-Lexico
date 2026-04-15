@@ -1,0 +1,118 @@
+digraph AFD_MicroPascal {
+    rankdir=LR;
+    size="15,10";
+    node [fontname="Helvetica", fontsize=10];
+
+    node [shape=point];
+    qi;
+
+    node [shape=circle, style=filled, fillcolor=lightblue];
+    q0  [label="q0\nInicial"];
+    q1  [label="q1\nID"];
+    q2  [label="q2\nINT"];
+    q3  [label="q3\nREAL"];
+    q4  [label="q4\nREAL_E"];
+    q5  [label="q5\nREAL_ES"];
+    q6  [label="q6\nREAL_ED"];
+    q7  [label="q7\nINT_E"];
+    q8  [label="q8\nINT_ES"];
+    q9  [label="q9\nINT_ED"];
+    q10 [label="q10\nNUM_MAL"];
+    q11 [label="q11\n<..."];
+    q12 [label="q12\n>..."];
+    q13 [label="q13\n:..."];
+    q14 [label="q14\nComent."];
+    q15 [label="q15\nString"];
+
+    node [shape=doublecircle, style=filled, fillcolor=lightgreen];
+    qID   [label="ID/KW"];
+    qINT  [label="NUM_INT"];
+    qREAL [label="NUM_REAL"];
+    qLT   [label="OP_LT"];
+    qLE   [label="OP_LE"];
+    qNE   [label="OP_NE"];
+    qGT   [label="OP_GT"];
+    qGE   [label="OP_GE"];
+    qCOL  [label="SMB_COL"];
+    qASS  [label="OP_ASS"];
+    qSMB  [label="Simbolo\nSimples"];
+
+    node [shape=doublecircle, style=filled, fillcolor=salmon];
+    qERR_INV           [label="Erro\nChar Inv."];
+    qERR_COMMENT       [label="Erro\nComent."];
+    qERR_STRING_OPEN   [label="Erro\nString\nAberta"];
+    qERR_STRING_UNSUP  [label="Erro\nString\nNao Suportada"];
+    qERR_NUM           [label="Erro\nNum Mal"];
+
+    qi -> q0;
+
+    q0 -> q0   [label="sp | \\t | \\n | \\r"];
+    q0 -> q1   [label="letra"];
+    q0 -> q2   [label="digito"];
+    q0 -> q11  [label="'<'"];
+    q0 -> q12  [label="'>'"];
+    q0 -> q13  [label="':'"];
+    q0 -> q14  [label="'{'"];
+    q0 -> q15  [label="'"];
+    q0 -> qSMB [label="= + - * / ; , ( ) ."];
+    q0 -> qERR_INV [label="'}' | outro"];
+
+    q1 -> q1   [label="letra | digito"];
+    q1 -> qID  [label="outro (retrocede)"];
+
+    q2 -> q2   [label="digito"];
+    q2 -> q3   [label="'.' digito"];
+    q2 -> q7   [label="E | e"];
+    q2 -> qINT [label="outro (retrocede)"];
+
+    q3 -> q3    [label="digito"];
+    q3 -> q4    [label="E | e"];
+    q3 -> qREAL [label="outro (retrocede)"];
+
+    q4 -> q5       [label="+ | -"];
+    q4 -> q6       [label="digito"];
+    q4 -> q10      [label="letra"];
+    q4 -> qERR_NUM [label="delim (retrocede)"];
+
+    q5 -> q6       [label="digito"];
+    q5 -> q10      [label="letra"];
+    q5 -> qERR_NUM [label="delim (retrocede)"];
+
+    q6 -> q6       [label="digito"];
+    q6 -> q10      [label="letra"];
+    q6 -> qREAL    [label="delim (retrocede)"];
+
+    q7 -> q8       [label="+ | -"];
+    q7 -> q9       [label="digito"];
+    q7 -> q10      [label="letra"];
+    q7 -> qERR_NUM [label="delim (retrocede)"];
+
+    q8 -> q9       [label="digito"];
+    q8 -> q10      [label="letra"];
+    q8 -> qERR_NUM [label="delim (retrocede)"];
+
+    q9 -> q9       [label="digito"];
+    q9 -> q10      [label="letra"];
+    q9 -> qERR_NUM [label="delim (retrocede)"];
+
+    q10 -> q10      [label="nao separador"];
+    q10 -> qERR_NUM [label="separador (retrocede)"];
+
+    q11 -> qLE  [label="'='"];
+    q11 -> qNE  [label="'>'"];
+    q11 -> qLT  [label="outro (retrocede)"];
+
+    q12 -> qGE  [label="'='"];
+    q12 -> qGT  [label="outro (retrocede)"];
+
+    q13 -> qASS [label="'='"];
+    q13 -> qCOL [label="outro (retrocede)"];
+
+    q14 -> q14          [label="qualquer (exceto '}' e EOF)"];
+    q14 -> q0           [label="'}'"];
+    q14 -> qERR_COMMENT [label="EOF"];
+
+    q15 -> q15               [label="qualquer (exceto ' e \\n e EOF)"];
+    q15 -> qERR_STRING_UNSUP [label="'"];
+    q15 -> qERR_STRING_OPEN  [label="\\n | EOF"];
+}
